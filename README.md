@@ -1,6 +1,8 @@
-### vue3-app-new
+### vue3-app-boilerplate
 
 vue3+router+pinia开发模板，开箱即用。
+
+node要求: v16(及其以上)
 
 技术栈情况：
  - Vite@3 
