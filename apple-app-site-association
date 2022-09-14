@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "36GVZ459C4.com.zzfund.zhide",
+                "paths": [ "/app/*" ]
+            }
+        ]
+    }
+}
