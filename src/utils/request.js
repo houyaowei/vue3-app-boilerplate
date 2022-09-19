@@ -1,8 +1,12 @@
-
+/**
+ * 1、可以在config中增加hideAlert=true，隐藏某次请求的toast提示
+ */
 import axios from 'axios'
 import { Toast } from 'vant'
-// import router from '../router'
+import { isObject } from "javascript-validate-utils";
+
 let loaddingCounter = 0;
+// cancel request
 const controller = new AbortController();
 
 const _axios = axios.create({
@@ -19,10 +23,12 @@ _axios.interceptors.request.use(
   (config) => {
     ++loaddingCounter;
     if (!config.noLoading) {
-      useLoadingStore().setLoadingInfo(true); //  打开加载动画
+      useLoadingStore().setLoadingInfo(true);
     }
-    config.cancelToken = source.token;
-    return config;
+    return {
+      ...config,
+      signal: controller.signal
+    };
   },
   (error) => {
     return Promise.error(error);
@@ -34,28 +40,26 @@ _axios.interceptors.response.use(res => {
     if (loaddingCounter == 0) {
       useLoadingStore().setLoadingInfo(false);
     }
-    if (typeof res.data !== 'object') {
+    if (!isObject(res.data)) {
       Toast('服务端异常！')
       return Promise.reject(res)
     }
-    console.log(res)
     if (res.status != 200) {
-      if (res.data.msg){
-        Toast(res.data.msg)
+      if (res.config.hideAlert == true) {
+        return Promise.reject(res.data.msg)
+      } else {
+        if (res.data.msg){
+          Toast(res.data.msg)
+        }
+        return Promise.reject(res.data)
       }
-      return Promise.reject(res.data)
     }
-
     return Promise.resolve(res.data)
   },
   (err) => {
     --loaddingCounter;
     if (loaddingCounter == 0) {
       useLoadingStore().setLoadingInfo(false);
-    }
-    // 接口取消
-    if (axios.isCancel(err)) {
-      console.log("request cancel ", JSON.stringify(err));
     }
     if (err.message && !axios.isCancel(err)) {
       Toast(err.message);
