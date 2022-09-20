@@ -52,6 +52,7 @@
     "rollup-plugin-external-globals": "^0.6.1",
     "rollup-plugin-visualizer": "^5.8.1",
     "start-server-and-test": "^1.14.0",
+    "vconsole": "^3.14.6",
     "vite": "^3.0.9",
     "vitest": "^0.23.1"
   },
@@ -61,11 +62,11 @@
     }
   },
   "lint-staged": {
-      "*.{scss,vue}": [
-        "stylelint --fix"
+    "*.{scss,vue}": [
+      "stylelint --fix"
     ],
     "*.{js,ts,vue}": [
-        "vue-cli-service lint"
+      "vue-cli-service lint"
     ]
   },
   "gitHooks": {

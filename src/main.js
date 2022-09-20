@@ -25,4 +25,8 @@ app.use(router);
 app.use(PullRefresh); //vant 下拉刷新
 // app.use(VueEasytable);
 
+
+//TODO,vconsole最后上线需要去掉
+import vconsole from "@/plugins/vconsole";
+
 app.mount("#app");
